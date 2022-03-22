@@ -1,0 +1,34 @@
+name: tiki_kv
+description: Key value storage for Tiki.
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ">=2.16.1 <3.0.0"
+  flutter: ">=2.5.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  sqflite_sqlcipher: ^2.1.0
+
+dependency_overrides:
+  sqflite:
+    git:
+      url: https://www.github.com/davidmartos96/sqflite_sqlcipher.git
+      path: sqflite
+      ref: fmdb_override
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.mytiki.tiki_kv
+        pluginClass: TikiKvPlugin
+      ios:
+        pluginClass: TikiKvPlugin
