@@ -32,6 +32,12 @@ class TikiKVRepository {
     );
   }
 
+  Future<void> deleteAll() async {
+    await _database.delete(
+      _table
+    );
+  }
+
   Future<TikiKVModel?> getById(int id) async {
     final List<Map<String, Object?>> rows =
         await _database.query(_table, where: "id = ?", whereArgs: [id]);

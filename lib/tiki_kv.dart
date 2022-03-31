@@ -18,4 +18,7 @@ class TikiKv {
       await _service.upsert(key, value);
 
   Future<void> delete(String key) async => await _service.delete(key);
+
+  Future<void> deleteAllData() async => await _service.deleteAllData();
+
 }

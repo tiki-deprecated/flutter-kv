@@ -31,4 +31,6 @@ class TikiKVService {
     TikiKVModel? data = await getByKey(key);
     if (data != null) await _repository.delete(data.id!);
   }
+
+  Future<void> deleteAllData() async => await _repository.deleteAll();
 }
