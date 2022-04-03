@@ -1,15 +1,20 @@
-class TikiKVModel {
+/*
+ * Copyright (c) TIKI Inc.
+ * MIT license. See LICENSE file in root directory.
+ */
+
+class Model {
   int? id;
   late String key;
   late String value;
 
-  TikiKVModel({
+  Model({
     required this.id,
     required this.key,
     required this.value,
   });
 
-  TikiKVModel.fromJson(Map<String, dynamic>? json) {
+  Model.fromJson(Map<String, dynamic>? json) {
     if (json != null) {
       id = json['id'];
       key = json['key'];
