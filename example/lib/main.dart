@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:sqflite_sqlcipher/sqflite.dart';
 import 'package:tiki_kv/tiki_kv.dart';
@@ -12,7 +10,7 @@ void main() async {
 
   await kv.init();
 
-  runApp(MyApp(kv));
+  runApp(MyApp(kv: kv));
 }
 
 Future<Database> open(String password) async {
@@ -24,12 +22,12 @@ Future<Database> open(String password) async {
 
 class MyApp extends StatefulWidget {
 
-  TikiKv _kv;
+  late final TikiKv? kv;
 
   final keyController = TextEditingController();
   final valueController = TextEditingController();
 
-  MyApp(this._kv, {Key? key}) : super(key: key);
+  MyApp({Key? key, this.kv}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _MyAppState();
@@ -45,7 +43,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("TIKI KV Example App "),
+          title: const Text("TIKI KV Example App "),
         ),
         body: Center(
           child: Column(
@@ -53,7 +51,7 @@ class _MyAppState extends State<MyApp> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               TextField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Key',
                 ),
@@ -61,7 +59,7 @@ class _MyAppState extends State<MyApp> {
               ),
 
               TextField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Value',
                 ),
@@ -69,10 +67,10 @@ class _MyAppState extends State<MyApp> {
               ),
 
               OutlinedButton(
-                child: new Text("Insert"),
+                child: const Text("Insert"),
                 onPressed: () {
 
-                  widget._kv.create(widget.keyController.value.text, widget.valueController.value.text).catchError((e){
+                  widget.kv?.create(widget.keyController.value.text, widget.valueController.value.text).catchError((e){
                     setState(() {
                       _error = "Error 2: " + e.toString();
                     });
@@ -84,9 +82,9 @@ class _MyAppState extends State<MyApp> {
               ),
 
               OutlinedButton(
-                child: Text("Upsert"),
+                child: const Text("Upsert"),
                 onPressed: () => {
-                  widget._kv.upsert(widget.keyController.value.text, widget.valueController.value.text),
+                  widget.kv?.upsert(widget.keyController.value.text, widget.valueController.value.text),
                   setState(() {
                     _error = null;
                   })
@@ -94,9 +92,9 @@ class _MyAppState extends State<MyApp> {
               ),
 
               OutlinedButton(
-                child: Text("Delete"),
+                child: const Text("Delete"),
                 onPressed: () => {
-                  widget._kv.delete(widget.keyController.value.text),
+                  widget.kv?.delete(widget.keyController.value.text),
                   setState(() {
                     _error = null;
                   })
@@ -104,9 +102,9 @@ class _MyAppState extends State<MyApp> {
               ),
 
               OutlinedButton(
-                child: Text("DeleteAll"),
+                child: const Text("DeleteAll"),
                 onPressed: () => {
-                  widget._kv.deleteAll(),
+                  widget.kv?.deleteAll(),
                   setState(() {
                     _error = null;
                   })
@@ -114,13 +112,13 @@ class _MyAppState extends State<MyApp> {
               ),
 
               OutlinedButton(
-                child: Text("Refresh"),
+                child: const Text("Refresh"),
                 onPressed: () => setState(() {
                   _error = null;
                 }),
               ),
 
-              Text(_error == null ? "No Error" : _error!!),
+              Text(_error == null ? "No Error" : _error!),
 
               // if (_error != null) ...[
               //   Text(_error!)
@@ -131,11 +129,11 @@ class _MyAppState extends State<MyApp> {
 
 
             FutureBuilder(
-                future: widget._kv.read(widget.keyController.value.text),
+                future: widget.kv?.read(widget.keyController.value.text),
                 initialData: "Loading text..",
                 builder: (BuildContext context, AsyncSnapshot<String?> text) {
                   return Text(
-                        (text.data == null ? "Data: Not Found" : "Data: " + text.data!!)
+                        (text.data == null ? "Data: Not Found" : "Data: " + text.data!)
                   );
                 })
 
